@@ -3,10 +3,18 @@ title: "STAT 534: Course Overview"
 author: ""
 date: "1/10/2019"
 output: slidy_presentation
+knit: (function(input_file, encoding) {
+  out_dir <- 'docs';
+  rmarkdown::render(input_file,
+ encoding=encoding,
+ output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
 ---
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+
+
 
 monday <- as.Date("2019-01-07")
 
