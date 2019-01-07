@@ -1,0 +1,195 @@
+---
+title: "STAT 534: Course Overview"
+author: ""
+date: "1/10/2019"
+output: slidy_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+monday <- as.Date("2019-01-07")
+
+advdate <- function(obj, adv) {
+ tmon <- obj + 7*(adv-1)
+ tfri <- obj + 4 + 7*(adv-1)
+ tmon <- format(tmon, format="%m/%d")
+ tfri <- format(tfri, format="%m/%d")
+ zadv <- sprintf("%02d", adv)
+ tmp <- paste("Week ",zadv,sep='',", ", tmon," - ",tfri)
+ return(tmp)
+}
+
+library(png)
+library(knitr)
+```
+
+## Course Description
+
+Statistical methods of:
+
+ - spatial data analysis,
+ - stationary and nonstationary random fields, 
+ - covariance structures, 
+ - geostatistical models and analysis, 
+ - spatial point process models and analysis, 
+ - spatial lattice models and analysis.
+
+
+## Course Info
+
+- classroom: *Wilson Hall 1-134*
+- class hours: TR 10:50-12:05
+- email: andrew.hoegh@montana.edu
+- web: [https://stat534.github.io](https://stat534.github.io)
+- office hours: TR 10:00 - 10:45 and TR 12:15 - 1:00
+- office: *Wilson Hall 2-241*
+
+## Student Outcomes
+
+At the end of the course students will be able to:
+
+1. Create maps and other data visualization products with spatial data, 
+
+2. Identify differences between the three common spatial data types: point process, geostatistical, and areal data.
+
+3. Use statistical software and either Bayesian or classical statistical techniques to analyze spatial point process, geostatistical, and areal data structures.
+
+4. Implement version control tools, such as git and github, on spatial data analyses.
+
+## Prerequisites
+
+- Required: STAT 412, STAT 512, and STAT 422
+- Preferred: STAT 506, extensive experience with R, and an understanding or interest in Bayesian statistics
+
+## Textbooks and Additional Resources
+
+#### Textbooks
+- Hierarchical Modeling and Analysis for Spatial Data, Second Edition, by Bannerjee, Carlin, and Gelfand. While the second edition is preferred, the first edition will suffice.
+
+#### Additional Resources
+Analysis, data visualization, and version control procedures will be implemented with:
+
+- R / R Studio
+- Git / Github
+
+## Grading Policy
+
+- **15%** of your grade will be determined by weekly quizzes to be completed prior to class on Tuesdays.
+
+- **35%** of your grade will be determined by weekly homework assignments. Collaboration is encouraged on homework assignments, but everyone should complete their own assignments. 
+
+- **25%** of your grade will be determined by a midterm project that focuses on geostatistical data. The midterm project will have a written component and an oral presentation and will likely be due the week prior to spring break.
+
+- **25%** of your grade will be determined by a final project that focuses on either point process or areal data. The final project will have a written component and an oral presentation and will due the finals week. 
+
+## Course Schedule
+
+
+An updated course schedule will be maintained on the course website. 
+
+- **Introduction: Git, R Studio, Spatial Data Structures, and Data Viz:** Week of January 7 - Week of January 14
+
+- **Point-Referenced Data**  Week of January 21 - Week of February 18
+
+- **Areal Data** Week of February 25 - Week of March 4
+
+- **Midterm Project** Week of March 11
+
+- **Areal Data Continued** Week of March 25 - Week of April 1
+
+- **Point Process Data** Week of April 8 - Week of April 22
+
+- **Final Project** Week of April 29: Project presentations May 3 from 2 - 3:50
+
+## Spatial Modeling Overview
+
+Researchers in many fields are faced with analyzing data with a spatial component. These analyses typically include:
+
+  - modeling trends and correlation structures
+  - estimation of underlying model parameters
+  - hypothesis testing or model comparision
+  - prediction of observations at unobserved times or locations
+
+## Course Focus
+
+The class will focus on data visualization, modeling, computing, and data analysis.
+
+After a few classes concerned with preliminary concepts: git, github, R, R Studio, and spatial data visualization; the course is organized into three components.
+
+1. **Point-Referenced Data**
+2. **Areal Data**
+3. **Point Pattern Data**
+
+## Point-Referenced Data
+
+**Defining features:** continuous surface measured at fixed locations. The observation is random.
+
+```{r, out.width = "80%", echo = F, fig.align = 'center', fig.cap='source: MT DEQ, http://svc.mt.gov/deq/todaysair/'}
+knitr::include_graphics("/Volumes/GoogleDrive/My Drive/Teaching/STAT534/STAT534/Lectures/figs/MT_Air.png") 
+```
+
+
+
+## Point-Referenced Data Exercise
+
+**Question**, how do we go from points to a surface map?
+
+```{r, out.width = "40%", echo = F, fig.align = 'center', fig.cap='source: airnow.gov'}
+knitr::include_graphics("/Volumes/GoogleDrive/My Drive/Teaching/STAT534/STAT534/Lectures/figs/MT_Air2.png") 
+```
+
+
+## Areal Data
+
+Defining features: random observation measured at well defined subsets, such as a city or state.
+
+```{r, out.width = "50%", echo = F, fig.align = 'center', fig.cap='source: https://www.politico.com/election-results/2018/montana/'}
+knitr::include_graphics("/Volumes/GoogleDrive/My Drive/Teaching/STAT534/STAT534/Lectures/figs/Tester.png") 
+```
+
+## Areal Data Exercise
+
+**Question:** How could spatial information be incorporated with this data structure?
+
+```{r, out.width = "50%", echo = F, fig.align = 'center', fig.cap='source: https://www.politico.com/election-results/2018/montana/'}
+knitr::include_graphics("/Volumes/GoogleDrive/My Drive/Teaching/STAT534/STAT534/Lectures/figs/Tester2.png") 
+```
+
+
+
+## Point Pattern Data
+
+Defining features: the location of the observation is random, such as the location of a plant.
+
+```{r, out.width = "50%", echo = F, fig.align = 'center', fig.cap='source: MT FWP'}
+knitr::include_graphics("/Volumes/GoogleDrive/My Drive/Teaching/STAT534/STAT534/Lectures/figs/CWD.jpg") 
+```
+
+## Point Pattern Exercise: Which are random?
+
+```{r, fig.align='center'}
+set.seed(12212018)
+library(ggplot2)
+x <- runif(100)
+y <- runif(100)
+group <- rep(c(1,2,3,4), each = 25)
+x[51:75] <- c(runif(5,0,.2),runif(5,.2,.4),runif(5,.4,.6),runif(5,.6,.8),runif(5,.8,1))
+x[76:100] <- pnorm(rnorm(25, mean = 0, sd = .7))
+y[76:100] <- pnorm(rnorm(25, mean = 0, sd = .7))
+comb <- data.frame(x=x, y=y, group = group)
+
+ggplot(aes(x=x, y=y), data = comb) + geom_point() + facet_wrap(~ group)
+```
+
+
+## Git
+
+For this class, assignments will be turned in via github.  Quiz 1 will be due before our next class.
+
+This will require:
+
+1. git installation on your computer [https://gist.github.com/derhuerst/1b15ff4652a867391f03](https://gist.github.com/derhuerst/1b15ff4652a867391f03). Note: you can check if you currently have git installed with the command `git --version` in the terminal or command line.
+2. a github account [https://www.wikihow.com/Create-an-Account-on-GitHub](https://www.wikihow.com/Create-an-Account-on-GitHub). Note: your username will be your identifier for this class and future version control projects. It is also searchable and often used by prospective employers, here is my page [https://github.com/andyhoegh](https://github.com/andyhoegh).
+
+Next, you can click on this link [https://classroom.github.com/a/E7XYvjdt](https://classroom.github.com/a/E7XYvjdt), which will create a private repository for your quiz. All you will need to do is edit the README.md file to answer the question AND THEN commit changes at the bottom of the page. We will cover more details about git next week.
